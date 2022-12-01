@@ -1,0 +1,35 @@
+# {{pou.name}}
+{{pou.doc_string}}
+
+{% for method in pou.methods %}
+## {{ method.name }}
+{{method.doc_string}}
+
+{% if method.get_inputs_md_table() is not none %}
+### Inputs
+{{ method.get_inputs_md_table() }}
+{% endif %}
+
+{% if method.get_outputs_md_table() is not none %}
+### Outputs
+{{ method.get_outputs_md_table() }}
+{% endif %}
+
+{% if method.get_inouts_md_table() is not none %}
+### Inouts
+{{ method.get_inouts_md_table() }}
+{% endif %}
+{% endfor %}
+
+{% for property in pou.properties %}
+##  Property {{ property.name }}
+{{property.doc_string}}
+{% if property.getter_doc_string is not none %}
+### Getter
+{{ property.getter_doc_string }}
+{% endif %}
+{% if property.setter_doc_string is not none %}
+### Setter
+{{ property.setter_doc_string }}
+{% endif %}
+{% endfor %}

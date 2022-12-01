@@ -12,7 +12,7 @@ from pathlib import Path
 import shutil
 
 from TwinCAT3_plc_files_to_src import get_sources_of_project
-from XfelDoc.run import get_pou_doc
+from DocClasses.run import get_pou_doc
 
 
 class TwinCatDoc(BasePlugin):
