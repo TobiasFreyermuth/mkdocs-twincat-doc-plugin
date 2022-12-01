@@ -5,6 +5,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
+    use_scm_version=True,
+    setup_requires=['setuptools_scm'],
     name='mkdocs-twincat-doc-plugin',
     # version='0.0.1',
     description='MkDocs plugin to import retrieve docstrings from TwinCAT project objects and add to docs',
