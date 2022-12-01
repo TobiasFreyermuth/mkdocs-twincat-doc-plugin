@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='mkdocs-twincat-doc-plugin',
-    version='0.0.1',
+    # version='0.0.1',
     description='MkDocs plugin to import retrieve docstrings from TwinCAT project objects and add to docs',
     keywords='mkdocs twincat',
     url='https://github.com/TobiasFreyermuth/mkdocs-twincat-doc-plugin',
