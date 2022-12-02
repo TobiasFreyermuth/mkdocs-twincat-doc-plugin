@@ -20,33 +20,31 @@ class DocGenerator(StructuredTextListener):
             pou.doc_string = ctx.DOC_STRING().getText()[3:-2]
 
         for x in ctx.getChildren():
-            match type(x):
-                case StructuredTextParser.Function_block_nameContext:
-                    pou.name = x.getText()
-                case StructuredTextParser.Method_declarationContext:
-                    m = MethodDoc(x)
-                    pou.add_method(m)
-                case StructuredTextParser.Parent_function_block_nameContext:
-                    pass
-                case StructuredTextParser.Var_in_blockContext:
-                    pass
-                case StructuredTextParser.Var_out_blockContext:
-                    pass
-                case StructuredTextParser.Var_blockContext:
-                    pass
-                case StructuredTextParser.Var_const_blockContext:
-                    pass
-                case StructuredTextParser.Interface_Type_AccessContext:
-                    pass
-                    # print(x.getText())
-                case StructuredTextParser.Function_bodyContext:
-                    pass
-                case StructuredTextParser.Property_declarationContext:
-                    p = PropertyDoc(x)
-                    pou.add_property(p)
-
-                case _:
-                    pass
+            if isinstance(x, StructuredTextParser.Function_block_nameContext):
+                pou.name = x.getText()
+            elif isinstance(x, StructuredTextParser.Method_declarationContext):
+                m = MethodDoc(x)
+                pou.add_method(m)
+            elif isinstance(x, StructuredTextParser.Parent_function_block_nameContext):
+                pass
+            elif isinstance(x, StructuredTextParser.Var_in_blockContext):
+                pass
+            elif isinstance(x, StructuredTextParser.Var_out_blockContext):
+                pass
+            elif isinstance(x, StructuredTextParser.Var_blockContext):
+                pass
+            elif isinstance(x, StructuredTextParser.Var_const_blockContext):
+                pass
+            elif isinstance(x, StructuredTextParser.Interface_Type_AccessContext):
+                pass
+                # print(x.getText())
+            elif isinstance(x, StructuredTextParser.Function_bodyContext):
+                pass
+            elif isinstance(x, StructuredTextParser.Property_declarationContext):
+                p = PropertyDoc(x)
+                pou.add_property(p)
+            else:
+                pass
 
         self.pou = pou
 
