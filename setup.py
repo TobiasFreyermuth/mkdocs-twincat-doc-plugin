@@ -15,7 +15,7 @@ setup(
     author='Tobias Freyermuth',
     author_email='Tobias.Freyermuth@posteo.net',
     license='MIT',
-    python_requires='>=3.9',
+    python_requires='>=3.7',
     install_requires=[
         'lxml>=4.0.0'
     ],
@@ -25,7 +25,7 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3 :: Only',
-        'Programming Language :: Python :: 3.9'
+        'Programming Language :: Python :: 3.7'
     ],
     packages=find_packages(),
     entry_points={
@@ -40,7 +40,7 @@ setup(
 
     extras_require={
         "dev": [
-            "pytest>=3.9",
+            "pytest>=3.7",
         ]
     },
 )
