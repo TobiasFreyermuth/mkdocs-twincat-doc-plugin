@@ -114,11 +114,13 @@ class PropertyDoc(object):
         else:
             self.doc_string = ''
 
-        if getter := node.property_getter_declaration():
+        getter = node.property_getter_declaration()
+        if getter:
             if getter.DOC_STRING() is not None:
                 self.getter_doc_string = getter.DOC_STRING().getText()[3:-2]
 
-        if setter := node.property_setter_declaration():
+        setter = node.property_setter_declaration()
+        if setter:
             if setter.DOC_STRING() is not None:
                 self.setter_doc_string = setter.DOC_STRING().getText()[3:-2]
 
