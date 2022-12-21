@@ -3,7 +3,6 @@ from gen.StructuredTextLexer import StructuredTextLexer
 from gen.StructuredTextParser import StructuredTextParser
 from gen.StructuredTextListener import StructuredTextListener
 from antlr4 import CommonTokenStream, InputStream, ParseTreeWalker
-from tests.Mock import MyErrorStrategy
 
 from TwinCAT3_plc_files_to_src import get_sources_of_project
 
