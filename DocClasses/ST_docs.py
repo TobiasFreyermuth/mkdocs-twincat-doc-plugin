@@ -1,3 +1,4 @@
+import logging
 import os
 from jinja2 import Environment, FileSystemLoader
 
@@ -45,26 +46,26 @@ class MethodDoc(object):
         self.inputs = [['Name', 'Date Type', 'Default Value']]
         self.outputs = [['Name', 'Date Type', 'Default Value']]
         self.inouts = [['Name', 'Date Type', 'Default Value']]
-        for var_block in node.var_in_block() + node.var_in_retain_block() + node.var_in_non_retain_block():
-            for stmt in var_block.declaration_stmt():
-                self.inputs.append([str(stmt.IDENTIFIER()),
-                                    stmt.data_type().getText(),
-                                    stmt.constant_expression().getText() if stmt.constant_expression() else ""
-                                    ])
+        self.__add_var_block_statements(node.var_in_block() +
+                                        node.var_in_retain_block() +
+                                        node.var_in_non_retain_block(),
+                                        self.inputs)
+        self.__add_var_block_statements(node.var_out_block() +
+                                        node.var_out_retain_block() +
+                                        node.var_out_non_retain_block(),
+                                        self.outputs)
+        self.__add_var_block_statements(node.var_inout_block(), self.inouts)
 
-        for var_block in node.var_out_block() + node.var_out_retain_block() + node.var_out_non_retain_block():
+    def __add_var_block_statements(self, var_blocks, list_to_append_to):
+        for var_block in var_blocks:
             for stmt in var_block.declaration_stmt():
-                self.outputs.append([str(stmt.IDENTIFIER()),
-                                    stmt.data_type().getText(),
-                                    stmt.constant_expression().getText() if stmt.constant_expression() else ""
-                                    ])
-
-        for var_block in node.var_inout_block():
-            for stmt in var_block.declaration_stmt():
-                self.inouts.append([str(stmt.IDENTIFIER()),
-                                    stmt.data_type().getText(),
-                                    stmt.constant_expression().getText() if stmt.constant_expression() else ""
-                                    ])
+                try:
+                    list_to_append_to.append([str(stmt.IDENTIFIER()),
+                                              stmt.data_type().getText(),
+                                              stmt.constant_expression().getText() if stmt.constant_expression() else ""
+                                              ])
+                except AttributeError as e:
+                    logging.warning(f'AttributeError in: {self.name}\n{str(stmt.IDENTIFIER())}\n{e}')
 
     def make_markdown_table(self, array):
         nl = "\n"
