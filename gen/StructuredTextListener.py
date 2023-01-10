@@ -161,6 +161,15 @@ class StructuredTextListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by StructuredTextParser#user_defined_data_type.
+    def enterUser_defined_data_type(self, ctx:StructuredTextParser.User_defined_data_typeContext):
+        pass
+
+    # Exit a parse tree produced by StructuredTextParser#user_defined_data_type.
+    def exitUser_defined_data_type(self, ctx:StructuredTextParser.User_defined_data_typeContext):
+        pass
+
+
     # Enter a parse tree produced by StructuredTextParser#data_type.
     def enterData_type(self, ctx:StructuredTextParser.Data_typeContext):
         pass
