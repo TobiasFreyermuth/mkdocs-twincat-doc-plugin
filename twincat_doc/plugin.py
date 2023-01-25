@@ -31,6 +31,9 @@ class TwinCatDoc(BasePlugin):
         src_path = self.config.get('TwinCAT_proj_dir')
         autodoc_folder_path = f'./docs/{self.config.get("TwinCAT_autodoc_folder_name", "autodoc")}/'
 
+        rtd_project_name = os.getenv('READTHEDOCS_PROJECT')
+        print(f'Red The Docs project name: {rtd_project_name}')
+
         if os.path.exists(autodoc_folder_path):
             shutil.rmtree(autodoc_folder_path)
         os.mkdir(autodoc_folder_path)
