@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 from timeit import default_timer as timer
 from datetime import datetime, timedelta
@@ -21,6 +22,8 @@ class TwinCatDoc(BasePlugin):
         ('TwinCAT_proj_dir', config_options.Type(str, default=r'./')),
         ('TwinCAT_autodoc_folder_name', config_options.Type(str, default='autodoc')),
         ('verbose', config_options.Type(bool, default=False)),
+        ('project_folder_name_black_lists', config_options.Type(dict, default={})),
+        ('project_file_name_black_lists', config_options.Type(dict, default={})),
     )
 
     def __init__(self):
@@ -34,12 +37,23 @@ class TwinCatDoc(BasePlugin):
         rtd_project_name = os.getenv('READTHEDOCS_PROJECT')
         print(f'Red The Docs project name: {rtd_project_name}')
 
+        folder_name_black_list = self.config.get('project_folder_name_black_lists', {}).get(rtd_project_name, [])
+        print(f'folder_name_black_list: \n{folder_name_black_list}')
+
+        file_name_black_list = self.config.get('project_file_name_black_lists', {}).get(rtd_project_name, [])
+#        file_name_black_list = project_based_file_name_black_list.get(rtd_project_name, [])
+        print(f'file_name_black_list: \n{file_name_black_list}')
+
         if os.path.exists(autodoc_folder_path):
             shutil.rmtree(autodoc_folder_path)
         os.mkdir(autodoc_folder_path)
 
         if os.path.exists(src_path):
             for name, folder, src in get_sources_of_project(src_path):
+                if skip_item(folder_name_black_list, folder, 'folder'):
+                    continue
+                if skip_item(file_name_black_list, name, 'file'):
+                    continue
                 pou = get_pou_doc(src)
                 if pou is not None:
                     folder = folder.replace(r'\\', '/')
@@ -49,3 +63,13 @@ class TwinCatDoc(BasePlugin):
                         file.write(pou.get_MD_doc())
 
         return
+
+
+def skip_item(regex_list, folder_name, item_type):
+    for x in regex_list:
+        p = re.compile(x)
+        if p.match(folder_name):
+            print(f'skip {item_type}: {folder_name}')
+            return True
+    else:
+        return False
