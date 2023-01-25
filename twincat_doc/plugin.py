@@ -41,7 +41,6 @@ class TwinCatDoc(BasePlugin):
         print(f'folder_name_black_list: \n{folder_name_black_list}')
 
         file_name_black_list = self.config.get('project_file_name_black_lists', {}).get(rtd_project_name, [])
-#        file_name_black_list = project_based_file_name_black_list.get(rtd_project_name, [])
         print(f'file_name_black_list: \n{file_name_black_list}')
 
         if os.path.exists(autodoc_folder_path):
@@ -66,9 +65,8 @@ class TwinCatDoc(BasePlugin):
 
 
 def skip_item(regex_list, folder_name, item_type):
-    for x in regex_list:
-        p = re.compile(x)
-        if p.match(folder_name):
+    for regex in regex_list:
+        if re.match(regex, folder_name, re.IGNORECASE):
             print(f'skip {item_type}: {folder_name}')
             return True
     else:
